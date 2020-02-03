@@ -1,9 +1,4 @@
-let insertAfter = (oldEl, newEl) => {
-    oldEl.parentNode.insertBefore(newEl, oldEl.nextSibling);
-}
-
 var formatRecipe = () => {
-
     var recipeContent = document.querySelector('#content-wrapper')
     var facts = document.querySelector('#facts')
     document.querySelector('.flex-box').style.flexWrap = 'nowrap';
@@ -24,40 +19,22 @@ var formatRecipe = () => {
     content.removeChild(content.lastElementChild);
 
     var recipeImage = document.querySelector('.recipe-image');
-    recipeImage.style.maxWidth = '460px';
+    recipeImage.style.maxWidth = '360px';
+    recipeImage.style.margin = '0px';
 
     document.querySelector('.facts').style.margin = '0px';
 
-    var instructions = flexBox.children[1]
-
-
-    var recipeLength = getRecipeLength(instructions)
-
-    if (recipeLength === "long") {
-
-        longRecipeFormat();
-    }
+    moveIngredients()
 
     window.print()
 }
 
-let moveNutritionToBottom = (target) => {
-    let nutrition = document.querySelector('.facts');
-
-    nutrition.style.position = 'absolute'
-    nutrition.style.bottom = '0'
-    nutrition.style.left = '0'
-
-    let ingredientsInstructions = document.querySelector('.flex-box');
-    ingredientsInstructions.marginBottom = '20px';
+let insertAfter = (oldEl, newEl) => {
+    oldEl.parentNode.insertBefore(newEl, oldEl.nextSibling);
 }
 
-let swapIngredientsInstructions = () => {
-    let ingredientsInstructions = document.querySelector('.flex-box');
-    insertAfter(ingredientsInstructions.children[1], ingredientsInstructions.children[0])
-}
 
-let longRecipeFormat = () => {
+let moveIngredients = () => {
     let ingredients = document.querySelector('.flex-item');
     let recipeImage = document.querySelector('.recipe-image');
     let title = document.querySelector('#content-inner');
@@ -76,18 +53,10 @@ let longRecipeFormat = () => {
 
     insertAfter(title, recipeIngredientContainer);
 
+
+    var flexBox = document.querySelector('.flex-box')
+    let instructions = flexBox.children[0]
     instructions.style.width = '100%'
-
-    recipeImage.style.maxWidth = '260px';
-    recipeImage.style.margin = '0px';
 }
 
-let getRecipeLength = (elem) => {
-    let height = elem.offsetHeight;
-
-    let recipeLength = (height > 400) ? 'long' : 'short';
-}
-
-let reduceImage = () => {
-
-}
+formatRecipe()
