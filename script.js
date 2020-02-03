@@ -24,7 +24,15 @@ var formatRecipe = () => {
 
     document.querySelector('.facts').style.margin = '0px';
 
+    let recipeIngredientContainer = document.createElement('div');
+
     moveIngredients()
+
+    if (document.querySelector('.ingredients').offsetHeight > 400) {
+        moveNutrition()
+    }
+
+    longRecipeFormat();
 
     window.print()
 }
@@ -34,18 +42,59 @@ let insertAfter = (oldEl, newEl) => {
 }
 
 
+let getRecipeLength = (elem) => {
+    let height = elem.offsetHeight;
+
+    let recipeLength = (height > 400) ? 'long' : 'short';
+}
+
+
+let longRecipeFormat = () => {
+    let instructions = document.querySelector('.flex-box').children[0]
+
+    var recipeLength = getRecipeLength(instructions)
+
+    if (recipeLength === "long") {
+
+        let ingredients = document.querySelector('.ingredients');
+        let recipeImage = document.querySelector('.recipe-image');
+        let title = document.querySelector('#content-inner');
+
+        let recipeIngredientContainer = document.createElement('div');
+        recipeIngredientContainer.setAttribute('id', 'recipe-ingredient-container');
+
+        recipeIngredientContainer.appendChild(recipeImage)
+        recipeIngredientContainer.appendChild(ingredients)
+
+        recipeIngredientContainer.style.cssText = "display: flex; flex-flow: row nowrap; align-items: flex-start; padding: 20px; max-width: 960px; margin: 0 auto; padding-bottom: 0px;"
+
+        for (divChild of recipeIngredientContainer.children) {
+            divChild.style.padding = '20px'
+        }
+
+        insertAfter(title, recipeIngredientContainer);
+
+        instructions.style.width = '100%'
+
+        recipeImage.style.maxWidth = '260px';
+        recipeImage.style.margin = '0px';
+    }
+
+}
+
 let moveIngredients = () => {
     let ingredients = document.querySelector('.flex-item');
     let recipeImage = document.querySelector('.recipe-image');
     let title = document.querySelector('#content-inner');
 
+    ingredients.classList.add('ingredients');
     let recipeIngredientContainer = document.createElement('div');
     recipeIngredientContainer.setAttribute('id', 'recipe-ingredient-container');
 
     recipeIngredientContainer.appendChild(recipeImage)
     recipeIngredientContainer.appendChild(ingredients)
 
-    recipeIngredientContainer.style.cssText = "display: flex; flex-flow: row nowrap; align-items: flex-start; padding: 20px; max-width: 960px; margin: 0 auto; "
+    recipeIngredientContainer.style.cssText = "display: flex; flex-flow: row nowrap; align-items: flex-start; padding: 20px; max-width: 960px; margin: 0 auto; padding-bottom: 0px;"
 
     for (divChild of recipeIngredientContainer.children) {
         divChild.style.padding = '20px'
@@ -59,4 +108,12 @@ let moveIngredients = () => {
     instructions.style.width = '100%'
 }
 
+let moveNutrition = () => {
+    let nutrition = document.querySelector('.facts')
+    let recipeImage = document.querySelector('.recipe-image')
+    let image = recipeImage.children[0]
+    insertAfter(image, nutrition)
+}
+
 formatRecipe()
+
